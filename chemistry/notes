@@ -1,0 +1,139 @@
+scientific process
+
+sigfigs
+    nonzeroes are sig
+    interior zeroes are sig
+    trailing zeroes are significant
+        right on nonzero after decimal
+    trailing zeroes before decimal are sig
+        100. - 3 sigfigs
+        .100 - 3 sigfigs
+    100 - 1 sigfig
+
+
+    .000065 - 2 sigfigs
+        leading zeroes not sig
+    1.00065 - 6 sigfigs
+
+discrete values have infinite sigfigs
+    i.e. 1 mol
+
+use smallest number
+    multiplying
+    dividing
+
+
+sub/add
+    same number of places as measurement with fewest number of decimal places
+
+Joule(J)
+calorie-energy heat 1g water 1C
+Calorie-kc
+
+2.80x10^2kWh to cal, Cal and J
+1 cal = 4.184J
+1 kwh = 3.60x10^6 J
+
+1 cal = 4.184J
+1 kwh = 3.60x10^6 J
+
+1 cal = 4.184J
+1 kwh = 3.60x10^6 J
+
+2.80x1-^2 kwh x 3.60x10^6J/1 kwh = 1.01x10^9J
+
+1.01x10^9 J x 1 cal/4.184J = 2.41 x 10^8 cal
+
+%yeild = (1 actual yield - theoretical yeild)/theoretical yield*100
+
+law summarized a relationship does not attempt to explain
+theory attempts to explain a law
+
+isotopes
+    atoms of the same element w/ different masses
+        diff neutrons
+
+cation positive charge, loses electrons
+anion negative charge, gains electron
+
+u = g/mol
+
+diatomic in nature
+    two of same in nature
+    TEST: H N O F Cl Br I
+
+know metal or nonmetal
+    TEST
+
+law of constant composition
+    relative amount of each element in a praticular compoud is always the same
+        water always h2o
+
+molecular mass: add atomic masses (and mul)
+
+metal nonmetal
+    name cation first
+    add ide suffix to anion
+    cation and anion balance each other
+
+    k2o potassium oxide
+    CdSe cadmium selenide
+
+
+nonmetal nonmetal
+    add prefix
+
+intensive vs extensive properties
+    intensive
+        not depend on amount of present substance
+            density
+    extensive
+        depend on amount of substance
+            mass
+need to know (TEST)
+    polyatomic ions
+
+
+avagadros
+    6.02E23
+
+2 AgNO3 + BaCl2-> 2 AgCl+ Ba(NO3)2
+
+Ag: 107.87 g/mol
+N: 14.01 g/mol
+O: 15.9994
+Ba: 137.327
+Cl: 35.453
+
+
+10.0g of AgNO3(MW 169.8569)
+10.0/169.8569 = 0.0589 Mol
+
+15.0g of BaCl2 (MW 208.233)
+15.0/208.233 = 0.0720 Mol
+
+We get 0.0589 Mol AgCl from AgNO3 <- Limiter
+We get (0.02720)2 Mol from BaCl2
+
+
+0.0589 Mol AgCl (MM = 143.32) = 8.44
+
+
+homework 11 question 16 is wrong???
+
+ionization energy
+
+bottom->top lower -> higher ionization energy
+left->right lower -> higher ionization energy
+
+top right is highest
+
+c = 2.998e8m/s
+E = hu
+lambda(u) = c
+h = (plank) = 6.626e-34
+
+
+n_l and n_h are the raw integer levels (1,2,3 etc)
+1/wavelength = r*(1/n_l^2 - 1/n_h^2)
+r = 1.097e7m^-1

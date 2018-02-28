@@ -1,0 +1,13 @@
+
+import rlcompleter
+import readline
+
+readline.parse_and_bind('set editing-mode vi')
+readline.parse_and_bind('"\C-u": backward-kill-line')
+readline.parse_and_bind('"\C-l": clear-screen')
+readline.parse_and_bind("tab: complete")
+
+from molecule import Molecule as M
+from chemistry import AVAGADRO,LIGHT,PLANCK,RYDBERG
+import chemistry
+from math import sqrt,pi
