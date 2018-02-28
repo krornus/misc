@@ -1,0 +1,22 @@
+Tree t
+
+alphabet = []
+labels = {}
+heights = [ [] ... [] ]
+
+for v in t {
+    heights[v.height()].push(v)
+    alphabet = alphabet.union(v.label)
+}
+
+for i,a in enumerate(alphabet) {
+    labels[a] = i
+}
+
+repeats = 0
+
+for i in 0..(t.diameter()/2) {
+    S = ""
+    for v in heights[i] {
+    }
+}

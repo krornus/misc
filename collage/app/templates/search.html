@@ -1,0 +1,14 @@
+{% extends "shared.html" %}
+{% block title %}Index{% endblock %}
+{% block content %}
+    <section id="photos">
+        {% for element in images %}
+            <img class="slide" src="{{ element }}"/>
+        {% endfor %}
+    </section>
+    <center>
+        <form action="search">
+            <input type="submit" class="button more" value="More"/>
+        </form>
+    </center>
+{% endblock %}

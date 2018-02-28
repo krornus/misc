@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+
+        "name": "Background-color setter",
+        "description": "Sets background-color css property of element",
+        "version": "1.0",
+
+        "browser_action": {
+            "default_icon": "icon.png",
+            "default_popup": "popup.html"
+        },
+        "permissions": [
+            "activeTab",
+        "https://ajax.googleapis.com/"
+        ],
+        "content_scripts": [
+            {
+            "matches": ["<all_urls>"],
+            "js": ["change_bg.js"]
+            }
+        ]
+}

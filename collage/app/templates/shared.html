@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+    {% block head %}
+    <link rel="stylesheet" href="{{url_for("static",filename="style.css")}}?q={{cache_bust}}">
+    <title>{% block title %}{% endblock %} - Collage</title>
+     <div class="navbar">
+        <form action="search">
+            <input class="expand" name="q" type="text" placeholder="Search ...">
+        </form>
+    </div>
+    {% endblock head %}
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Modular Inverse Calculator</title>
+  <link href='static/css/bootstrap.min.css' rel='stylesheet' type='text/css' />
+  <link href='static/css/site.css' rel='stylesheet' type='text/css' />
+</head>
+<body>
+    <form action="{{ url_for('mmi') }}" method="post" class="form-submit">
+        <label class="title">Modular Multiplicative Inverse Calculator</label>
+        <input class="form-control" type="text" name="exp" placeholder="Integer"/>
+        <input class="form-control" type="text" name="mod" placeholder="Modulus"/>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Calculate" />
+        {% if d %}
+        <label class="form-control">{{ d }}</label>
+        {% endif %}
+    </form>
+</body>
+</html>

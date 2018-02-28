@@ -1,0 +1,13 @@
+[package]
+name = "img-scraper"
+version = "0.1.0"
+authors = ["krornus <krornus@gmail.com>"]
+
+[dependencies]
+image = ">=0.14"
+regex = ">=0.2"
+
+futures = "0.1"
+hyper = "0.11"
+tokio-core = "0.1"
+
