@@ -1,0 +1,5 @@
+interface for managing color schemes cross-application (i3 vim zsh)
+
+fast desktop environment switcher
+
+no overhead unless switchin
