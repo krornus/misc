@@ -105,7 +105,6 @@ O: 15.9994
 Ba: 137.327
 Cl: 35.453
 
-
 10.0g of AgNO3(MW 169.8569)
 10.0/169.8569 = 0.0589 Mol
 
@@ -137,3 +136,6 @@ h = (plank) = 6.626e-34
 n_l and n_h are the raw integer levels (1,2,3 etc)
 1/wavelength = r*(1/n_l^2 - 1/n_h^2)
 r = 1.097e7m^-1
+
+sivler, group1, group2 cations you need to know
+
