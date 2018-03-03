@@ -1,0 +1,306 @@
+#!/usr/bin/env python2
+import re
+import shlex
+import pickle
+from os import system,path
+from termcolor import colored
+
+qre = re.compile("^\s*[0-9]+\s*\.")
+are = re.compile("^\s*[A-Z]\s*\)")
+
+def main():
+
+    if path.exists("guide.pk"):
+        with open("guide.pk","r") as f:
+            questions = pickle.load(f)
+
+        proctor = Proctor(questions)
+        try:
+            proctor.run()
+        except KeyboardInterrupt:
+            with open("guide.pk","w") as f:
+                questions = pickle.dump(proctor.questions,f)
+                exit(1)
+
+    else:
+
+        lines = read_guide("guide.txt")
+        questions = Parser(lines).questions
+        proctor = Proctor(questions)
+        proctor.run()
+
+
+class Proctor:
+
+    def __init__(self,questions):
+        self.index = 0
+        self.save = "guide.pk"
+        self.questions = questions
+        self.exit = False
+        self.default_prompt = "$ "
+        self.prompt = "$ "
+        self.commands = {
+            "quit": self.quit,
+            "exit": self.quit,
+            "next": self.next,
+            "previous": self.previous,
+            "goto": self.goto,
+            "answer": self.answer,
+        }
+
+        self.are = re.compile("\s*([a-z])\s*", re.I)
+        self.nre = re.compile("\s*([0-9]+)\s*")
+        self.relnre = re.compile("\s*([\-\+])([0-9]+)\s*")
+
+    def run(self):
+        while not self.exit:
+            clear()
+
+            print self.questions[self.index]
+
+            action = raw_input(self.prompt)
+
+            self.error = ""
+            self.handle(action)
+
+            if self.error:
+                self.prompt = "({}) {}".format(self.error,self.default_prompt)
+            else:
+                self.prompt = "{}".format(self.default_prompt)
+
+    def handle(self,action):
+
+        if not action.strip():
+            self.next()
+            return
+
+        argv = shlex.split(action)
+
+        action = self.subcmd(argv[0])
+        if action:
+            self.commands[action](argv[0:])
+
+    def next(self,d=None):
+        self.index = (self.index + 1) % len(self.questions)
+
+    def previous(self,d=None):
+        self.index = (self.index - 1) % len(self.questions)
+
+    def quit(self,d=None):
+        self.exit = True
+        with open(self.save, "w") as f:
+            pickle.dump(self.questions,f)
+
+    def goto(self,argv):
+
+        if len(argv) != 2:
+            self.error = colored("usage: goto [+/-]n","red")
+            return
+
+        n = argv[1]
+
+        is_rel = self.relnre.match(n)
+        is_num = self.nre.match(n)
+
+        if is_rel:
+            mul = 1 - 2*int(is_rel.group(1) == '-')
+            n = int(is_rel.group(2))
+            n = (self.index + n*mul) % len(self.questions)
+
+        elif is_num:
+            n = int(is_num.group(1))-1
+        else:
+            self.error = colored("usage: goto [+/-]n","red")
+            return
+
+        if n < len(self.questions) and n > 0:
+            self.index = n
+        else:
+            self.error = colored("given index out of range","red")
+
+    def answer(self,argv):
+
+        if len(argv) != 2:
+            self.questions[self.index].correct = None
+            return
+
+        ans = argv[1]
+
+        is_ans = self.are.match(ans)
+        is_num = self.nre.match(ans)
+
+        if is_ans:
+            ans = ord(is_ans.group(1).upper()) - ord("A")
+        elif is_num:
+            ans = int(is_num.group(1))-1
+        else:
+            self.error = colored("usage: answer <n|[A-Za-z]>","red")
+
+        if ans < len(self.questions[self.index].answers) and ans > -1:
+            self.questions[self.index].correct = ans
+            with open(self.save, "w") as f:
+                pickle.dump(self.questions,f)
+        else:
+            self.error = colored("answer not in range","red")
+
+
+
+
+
+    def subcmd(self,s):
+        possible = [x for x in self.commands.keys() if x.startswith(s)]
+        if len(possible) == 1:
+            return possible[0]
+        elif len(possible) > 1:
+            self.error = colored("multiple commands found for '{}'\n\tchoose from: '{}'".format(s, possible), "red")
+        else:
+            self.error = colored("command not found: '{}'".format(s), "red")
+
+
+class Question:
+    def __init__(self,q,a,c=None):
+        self.question = q
+        self.answers = a
+        self.correct = None
+
+    def __str__(self):
+        res = ""
+
+        if not self.question:
+            return ""
+
+        res += self.question
+        for i,answer in enumerate(self.answers):
+
+            if not answer:
+                res += ""
+            elif i == self.correct:
+                res += colored(answer,"green")
+            elif self.correct != None and i != self.correct:
+                res += colored(answer,"red")
+            else:
+                res += answer
+
+        return res
+
+class Parser:
+
+    def __init__(self,lines):
+        self.lines = lines
+        self.lines.reverse()
+        self.lno = 0
+
+        self.questions = []
+
+        question=self.chomp()
+
+        while question:
+            self.questions.append(question)
+            question=self.chomp()
+
+    def pop(self):
+        if len(self.lines) == 0:
+            return None
+
+        self.lno += 1
+
+        r = self.lines.pop()
+
+        if r.strip():
+            return r
+
+        else:
+            while not r.strip():
+
+                if len(self.lines) == 0:
+                    return None
+
+                self.lno += 1
+                r = self.lines.pop()
+
+            return r
+
+
+    def peek(self):
+        if len(self.lines) == 0:
+            return None
+
+        r = self.lines[-1]
+
+        if r.strip():
+            return r
+
+        else:
+            i = 2
+            while not r.strip():
+
+                if len(self.lines) < -i:
+                    return None
+
+                r = self.lines[-i]
+                i+=1
+
+            return r
+
+
+    def chomp(self):
+
+        question = self.read_question()
+
+        if not question:
+            return
+
+        answers = []
+
+        answer = self.read_answer()
+        while answer:
+            answers.append(answer)
+            answer = self.read_answer()
+
+        return Question(question,answers)
+
+    def read_question(self):
+
+        question = self.pop()
+        if question and not qre.match(question):
+            print "Line {}: invalid question: '{}'".format(
+                self.lno,
+                question.strip()
+            )
+            return None
+
+        line = self.peek()
+        if line and not are.match(line):
+            while line and not are.match(line):
+                line = self.pop()
+                question += line
+                line = self.peek()
+
+        return question
+
+    def read_answer(self):
+
+        line = self.peek()
+        if line and not are.match(line):
+            return
+
+        answer = self.pop()
+
+        line = self.peek()
+        if line and not are.match(line):
+            while line and not are.match(line) and not qre.match(line):
+                line = self.pop()
+                answer += line
+                line = self.peek()
+
+        return answer
+
+def clear():
+    system("clear")
+
+def read_guide(fn):
+    with open(fn,"r") as f:
+        return f.readlines()
+
+if __name__ == "__main__":
+    main()
